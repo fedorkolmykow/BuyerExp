@@ -1,0 +1,15 @@
+@startuml
+[o-> worker: SendChanges
+activate worker
+worker-> dbClient: SelectAllActiveNotices
+activate dbClient
+return Notices
+worker-> Parser: ParsePrices
+activate Parser
+return NoticesWithNewPrices
+worker-> dbClient: UpdateNoticesPrice
+worker-> dbClient: SelectSubscriptions
+activate dbClient
+return SubscriptionsWithNewPrices
+worker-> smtpClient: SendMailsWithNewPrices
+@enduml
