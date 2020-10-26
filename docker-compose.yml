@@ -1,0 +1,41 @@
+version: '3.4'
+services:
+  server:
+    build: buyerExp/
+    ports:
+      - "9000:9000"
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://postgres:avitopass@exppostgres:5432/avitoexp
+      - HTTP_PORT=:9000
+      - LOG_LEVEL=TRACE
+      - TIME_TO_SHUTDOWN=10
+      - HOST=localhost
+      - MAIL_USER=testuser
+      - MAIL_PASSWORD=password
+      - TIME_BETWEEN_PARSING=5s
+    volumes:
+    - ./logs/:/root/logs/
+    stop_signal: SIGINT
+    stop_grace_period: 15s
+  postgres:
+    container_name: exppostgres
+    build: postgres/
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5555:5432"
+  postfix:
+    image: marvambass/versatile-postfix
+    container_name: exppostfix
+    environment:
+      - DISABLE_DKIM=true
+      - ALIASES=postmaster:root;hostmaster:root;webmaster:root
+    entrypoint: ["/opt/startup.sh", "mydomain.ru", "testuser:password"]
+    volumes:
+    - ./logs/postfix:/var/log
+    ports:
+      - "25:25"
+
