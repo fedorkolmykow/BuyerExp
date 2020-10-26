@@ -8,7 +8,7 @@ services:
     depends_on:
       - postgres
     environment:
-      - DATABASE_URL=postgresql://postgres:avitopass@exppostgres:5432/avitoexp
+      - DATABASE_URL=postgresql://dbClient:avitopass@exppostgres:5432/avitoexp
       - HTTP_PORT=:9000
       - LOG_LEVEL=TRACE
       - TIME_TO_SHUTDOWN=10

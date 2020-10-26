@@ -1,4 +1,4 @@
-package postgres
+package dbClient
 
 import (
 	"database/sql"

@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/fedorkolmykow/avitoexp/pkg/httpServer"
-	"github.com/fedorkolmykow/avitoexp/pkg/postgres"
+	"github.com/fedorkolmykow/avitoexp/pkg/dbClient"
 	"github.com/fedorkolmykow/avitoexp/pkg/service"
 
 	log "github.com/sirupsen/logrus"
@@ -41,7 +41,7 @@ func main() {
 	}
 
 	smtpCl := smtp.NewSMTP()
-    dbCon := postgres.NewDbClient()
+    dbCon := dbClient.NewDbClient()
     par := parser.NewParser()
 
     wrk := worker.NewWorker(dbCon, smtpCl, par)
