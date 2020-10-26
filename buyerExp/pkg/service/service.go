@@ -31,8 +31,8 @@ type service struct{
 }
 
 func (s *service) Subscribe(Req *api.SubscribeReq) (Resp *api.SubscribeResp, err error){
-	registered, err:= s.db.CheckUser(Req.Mail)
-	if !registered{
+	isRegistered, err:= s.db.CheckUser(Req.Mail)
+	if !isRegistered{
 		str:= Req.Mail + time.Now().Format(time.RFC822)
 		hasher := sha1.New()
 		hasher.Write([]byte(str))
